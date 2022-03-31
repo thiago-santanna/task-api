@@ -1,5 +1,6 @@
 package com.tsswebapps.taskapi.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class TaskController {
 		TaskDto task = taskService.findOne(id);
 		
 		return new ResponseEntity<TaskDto>(task, HttpStatus.OK);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TaskDto>> findAllTasks(){
+		List<TaskDto> tasks = taskService.findAll();
+		return new ResponseEntity<>(tasks, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")

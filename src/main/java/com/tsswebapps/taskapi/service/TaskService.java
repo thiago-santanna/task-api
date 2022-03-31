@@ -1,7 +1,9 @@
 package com.tsswebapps.taskapi.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,13 @@ public class TaskService {
 
 	public void deleteTask(UUID id) {
 		repository.deleteById(id);		
+	}
+
+	public List<TaskDto> findAll() {
+		
+		return repository.findAll()
+				.stream()
+				.map(Task::toTaskDto)
+				.collect(Collectors.toList());
 	}
 }
