@@ -30,4 +30,7 @@ public class TaskService {
 		return null;
 	}
 
+	public void deleteTask(UUID id) {
+		repository.deleteById(id);		
+	}
 }
