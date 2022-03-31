@@ -1,8 +1,12 @@
 package com.tsswebapps.taskapi.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +23,16 @@ public class TaskController {
 	private TaskService taskService;
 	
 	@PostMapping
-	public ResponseEntity<TaskDto> salvarTask(@RequestBody TaskFormDto taskDto){
+	public ResponseEntity<TaskDto> saveTask(@RequestBody TaskFormDto taskDto){
 		TaskDto task = taskService.salvarTask(taskDto);
 		
 		return new ResponseEntity<TaskDto>(task, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<TaskDto> findOneTask(@PathVariable UUID id){
+		TaskDto task = taskService.findOne(id);
+		
+		return new ResponseEntity<TaskDto>(task, HttpStatus.OK);
 	}
 }
