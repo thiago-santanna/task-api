@@ -17,6 +17,7 @@ public class TaskFormDto {
 	public Task toTask() {
 		return new Task(null, description);
 	}
-	
+
+	public TaskFormDto() {}
 	
 }

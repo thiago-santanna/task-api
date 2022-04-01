@@ -1,6 +1,6 @@
 package com.tsswebapps.taskapi.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.tsswebapps.taskapi.dto.TaskDto;
 
@@ -26,9 +25,15 @@ public class Task {
 	private String description;
 
 	@CreationTimestamp
-	private LocalDateTime createdAt;
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+	private LocalDate createdAt;
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
 
 	public UUID getId() {
 		return id;
@@ -52,7 +57,6 @@ public class Task {
 	}
 	
 	public Task() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TaskDto toTaskDto() {
