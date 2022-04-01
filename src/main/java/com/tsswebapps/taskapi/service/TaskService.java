@@ -1,5 +1,6 @@
 package com.tsswebapps.taskapi.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,6 +41,26 @@ public class TaskService {
 		
 		return repository.findAll()
 				.stream()
+				.map(Task::toTaskDto)
+				.collect(Collectors.toList());
+	}
+
+	public List<TaskDto> tasksPartialDescription(String part) {
+		
+		System.out.println(part);
+		List<Task> tasksPartialDescription = repository.getTasksPartialDescription(part);
+		return tasksPartialDescription.stream()
+				.map(Task::toTaskDto)
+				.collect(Collectors.toList());
+	}
+
+	public List<TaskDto> tasksPeriod(String dateInit, String dateEnd) {
+		LocalDate dateIni = LocalDate.parse(dateInit);
+		LocalDate dateFin = LocalDate.parse(dateEnd);
+		
+		List<Task> tasksByDate = repository.getTasksByDate(dateIni, dateFin);
+		
+		return tasksByDate.stream()
 				.map(Task::toTaskDto)
 				.collect(Collectors.toList());
 	}

@@ -18,13 +18,11 @@ public class ReportRepositoryImpl implements ReportRepository {
 	@Override
 	public List<Task> getTasksByDate(LocalDate dateInit, LocalDate dateEnd) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("select t from tasks t");
-		builder.append("where created_at >= ?dateInit");		
-		if(dateEnd != null) {
-			builder.append("and created_at <= ?dateEnd");
-		}
+		builder.append("select t from Task t ");
+		builder.append("where t.createdAt >= :dateInit ");		
+		builder.append("and t.createdAt <= :dateEnd");
 		
-		TypedQuery<Task> query = entityManager.createNamedQuery(builder.toString(), Task.class);
+		TypedQuery<Task> query = entityManager.createQuery(builder.toString(), Task.class);
 		query.setParameter("dateInit", dateInit);
 		if(dateEnd != null) {
 			query.setParameter("dateEnd", dateEnd);
@@ -36,16 +34,12 @@ public class ReportRepositoryImpl implements ReportRepository {
 	@Override
 	public List<Task> getTasksPartialDescription(String partialDescription) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("select t from tasks t");
-		
-		if(partialDescription != null) {
-			return null;
-		}
-		
-		builder.append("where description like ?partialDescription");
+		builder.append("select t from Task t ");		
+		builder.append("where t.description LIKE :partialDescription");
 		
 		TypedQuery<Task> query = entityManager.createQuery(builder.toString(), Task.class);
-		query.setParameter("partialDescription", partialDescription);
+		
+		query.setParameter("partialDescription", "%"+partialDescription+"%");
 		return query.getResultList();
 	}
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tsswebapps.taskapi.dto.TaskDto;
@@ -41,6 +42,21 @@ public class TaskController {
 	@GetMapping
 	public ResponseEntity<List<TaskDto>> findAllTasks(){
 		List<TaskDto> tasks = taskService.findAll();
+		return new ResponseEntity<>(tasks, HttpStatus.OK);
+	}
+	
+	@GetMapping("/part")
+	public ResponseEntity<List<TaskDto>> findTaskPartialDescription(@RequestParam(required = true, name = "part") String part){
+		List<TaskDto> tasks = taskService.tasksPartialDescription(part);
+		return new ResponseEntity<>(tasks, HttpStatus.OK);
+	}
+	
+	@GetMapping("/period")
+	public ResponseEntity<List<TaskDto>> findTaskPeriod(
+			@RequestParam(required = true, name = "dateInit") String dateInit,
+			@RequestParam(required = true, name = "dateEnd") String dateEnd
+			){
+		List<TaskDto> tasks = taskService.tasksPeriod(dateInit, dateEnd);
 		return new ResponseEntity<>(tasks, HttpStatus.OK);
 	}
 	
